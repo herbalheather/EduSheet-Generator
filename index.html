@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduSheet Generator | Mama Said This - Fun Worksheets That Spark Joy!</title>
+    <title>K-6 Worksheet Generator | Mama Said This - Epic Text-Based Learning Quests! 🚀</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -56,25 +56,25 @@
         @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
         .form-group { background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
         label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary); }
-        select, input { width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; transition: border-color 0.3s; }
-        select:focus, input:focus { border-color: var(--primary); outline: none; }
-        .theme-option { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border-radius: 8px; cursor: pointer; transition: background 0.3s; }
+        select { width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; transition: border-color 0.3s; background: white; }
+        select:focus { border-color: var(--primary); outline: none; }
+        .theme-option { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border-radius: 8px; cursor: pointer; transition: background 0.3s; margin-bottom: 0.5rem; }
         .theme-option:hover { background: #f0f9ff; }
         .theme-option.selected { background: #dbeafe; border: 2px solid var(--secondary); }
         .theme-emoji { font-size: 1.5rem; }
-        .type-desc, .subject-desc { font-size: 0.9rem; color: #94a3b8; margin-top: 0.25rem; }
+        .type-desc, .subject-desc { font-size: 0.9rem; color: #94a3b8; margin-top: 0.25rem; display: block; }
         #preview { 
             background: white; 
             padding: 2rem; 
             border-radius: 16px; 
             box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
             margin-bottom: 2rem; 
-            min-height: 300px; 
+            min-height: 400px; 
             display: flex; align-items: center; justify-content: center; 
             flex-direction: column; 
             text-align: center;
         }
-        #preview-content { opacity: 0; transition: opacity 0.5s; }
+        #preview-content { opacity: 0; transition: opacity 0.3s; width: 100%; }
         #preview-content.show { opacity: 1; }
         .btn { 
             padding: 1rem 2rem; 
@@ -88,10 +88,12 @@
             font-size: 1.1rem;
             display: block; margin: 1rem auto;
         }
-        .btn:hover { background: #d14361; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(232,93,117,0.3); }
+        .btn:hover:not(:disabled) { background: #d14361; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(232,93,117,0.3); }
         .btn:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
         .btn-success { background: var(--success); }
         .btn-success:hover { background: #059669; }
+        .btn-share { background: var(--secondary); margin-left: 1rem; }
+        .btn-share:hover { background: #4f46e5; }
         .tips { background: #fef3c7; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; }
         .tips h3 { color: #92400e; margin-bottom: 1rem; }
         .tips ul { list-style: none; }
@@ -108,18 +110,22 @@
         .quiz-option { padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
         .quiz-option:hover { border-color: var(--primary); }
         .quiz-option.selected { background: #dbeafe; border-color: var(--secondary); }
-        .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+        .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
         .resource-card { background: #f8fafc; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--accent); }
         .resource-card h4 { color: var(--primary); margin-bottom: 0.5rem; }
-        .download-link { color: var(--success); text-decoration: none; font-weight: 600; }
+        .resource-video { width: 100%; height: 200px; border-radius: 8px; margin: 0.5rem 0; }
+        .download-link { color: var(--success); text-decoration: none; font-weight: 600; display: block; margin-top: 0.5rem; }
         .download-link:hover { text-decoration: underline; }
+        .khan-link { color: var(--secondary); font-weight: 600; display: block; margin-top: 0.5rem; }
+        .khan-link:hover { text-decoration: underline; }
         .confetti { pointer-events: none; }
         .save-template { background: var(--accent); color: var(--dark); margin-left: 1rem; }
         .save-template:hover { background: #f59e0b; }
-        .problem { margin-bottom: 1rem; font-size: 1.2rem; text-align: center; }
-        .wordsearch-grid { font-family: monospace; background: #f3f4f6; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
-        .coloring-placeholder { border: 2px dashed var(--accent); padding: 2rem; margin: 1rem 0; text-align: center; font-size: 1.5rem; }
-        .optgroup-desc { font-style: italic; color: #94a3b8; }
+        .problem { margin-bottom: 1rem; font-size: 1.2rem; text-align: left; }
+        .wordsearch-grid { font-family: monospace; background: #f3f4f6; padding: 1rem; border-radius: 8px; margin: 1rem 0; white-space: pre-line; text-align: center; }
+        .quiz-options-preview { margin-top: 1rem; }
+        .quiz-option-preview { padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 6px; margin: 0.25rem 0; }
+        .optgroup { font-weight: 600; color: var(--secondary); }
     </style>
 </head>
 <body>
@@ -136,78 +142,72 @@
     
     <!-- Main Generator -->
     <section id="generator">
-        <h1>Create Epic Educational Worksheets! 🚀</h1>
-        <p class="subtitle">Mix grades, subjects, & themes for worksheets that kids actually *want* to do. No boring busywork—pure fun learning magic!</p>
+        <h1>Create Epic K-6 Worksheets! 🚀</h1>
+        <p class="subtitle">Text-powered quests: Math drills, word hunts, quizzes—blended with themes for non-stop fun. Faster gen, smarter previews, zero fluff!</p>
         
         <div class="form-grid">
             <div class="form-group">
                 <label for="grade">Grade Level <span class="required">*</span></label>
                 <select id="grade" onchange="updatePreview()">
                     <option value="">Select Grade</option>
-                    <option value="grade1">Grade 1</option>
-                    <option value="grade2">Grade 2</option>
-                    <option value="grade3">Grade 3</option>
-                    <option value="grade4">Grade 4</option>
-                    <option value="grade5">Grade 5</option>
-                    <option value="grade6">Grade 6</option>
+                    <option value="k">K (Little Legends)</option>
+                    <option value="1">Grade 1</option>
+                    <option value="2">Grade 2</option>
+                    <option value="3">Grade 3</option>
+                    <option value="4">Grade 4</option>
+                    <option value="5">Grade 5</option>
+                    <option value="6">Grade 6</option>
                 </select>
                 
                 <label for="subject">Subject <span class="required">*</span></label>
                 <select id="subject" onchange="updatePreview()">
                     <option value="">Choose Subject</option>
-                    <optgroup label="Mathematics">
+                    <optgroup label="Core Skills" class="optgroup">
                         <option value="math" data-desc="Numbers, operations, geometry, & problem solving">Mathematics</option>
-                    </optgroup>
-                    <optgroup label="Science">
                         <option value="science" data-desc="Nature, experiments, animals, & discovery">Science</option>
-                    </optgroup>
-                    <optgroup label="Reading Comprehension">
                         <option value="reading" data-desc="Stories, vocabulary, & understanding">Reading Comprehension</option>
                     </optgroup>
                 </select>
-                <small id="subject-desc" class="subject-desc"></small>
+                <div id="subject-desc" class="subject-desc"></div>
                 
                 <label for="type">Worksheet Type <span class="required">*</span></label>
                 <select id="type" onchange="updatePreview()">
                     <option value="">Pick Type</option>
-                    <optgroup label="Creative Fun">
-                        <option value="coloring" data-desc="Black & white images to color | K-3 | 15-30 min">Coloring Sheet</option>
-                    </optgroup>
                     <optgroup label="Puzzle Power">
-                        <option value="wordsearch" data-desc="Find hidden words | 2-6 | 10-25 min">Word Search</option>
+                        <option value="wordsearch" data-desc="Find hidden words related to the subject | 2-6 | 10-25 min">Word Search</option>
                     </optgroup>
                     <optgroup label="Brain Teasers">
-                        <option value="quiz" data-desc="Multiple choice & short answers | 1-6 | 20-40 min">Question Quiz</option>
-                        <option value="math" data-desc="Grade-appropriate problems | K-6 | 20-40 min">Math Practice</option>
+                        <option value="quiz" data-desc="Multiple choice and short answer questions | 1-6 | 20-40 min">Question Quiz</option>
+                        <option value="math" data-desc="Grade-appropriate math problems and exercises | K-6 | 20-40 min">Math Practice</option>
                     </optgroup>
                 </select>
-                <small id="type-desc" class="type-desc"></small>
+                <div id="type-desc" class="type-desc"></div>
             </div>
             
             <div class="form-group">
                 <label>Theme <span class="required">*</span></label>
                 <div id="themes" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <div class="theme-option" onclick="selectTheme('space', this)"><span class="theme-emoji">🚀</span> Space Adventure<br><small>Rockets, planets, astronauts, cosmic fun!</small></div>
-                    <div class="theme-option" onclick="selectTheme('animals', this)"><span class="theme-emoji">🦁</span> Animal Kingdom<br><small>Wildlife, pets, jungle vibes & nature</small></div>
-                    <div class="theme-option" onclick="selectTheme('sea', this)"><span class="theme-emoji">🐟</span> Under the Sea<br><small>Sea creatures, underwater world</small></div>
-                    <div class="theme-option" onclick="selectTheme('dinos', this)"><span class="theme-emoji">🦕</span> Dinosaur World<br><small>Prehistoric beasts, fossils, ancient times</small></div>
-                    <div class="theme-option" onclick="selectTheme('nature', this)"><span class="theme-emoji">🌳</span> Nature Explorer<br><small>Plants, trees, seasons, outdoor adventures</small></div>
-                    <div class="theme-option" onclick="selectTheme('transport', this)"><span class="theme-emoji">🚗</span> Transportation<br><small>Cars, trains, planes, speedy vehicles</small></div>
+                    <div class="theme-option" onclick="selectTheme('space', this)"><span class="theme-emoji">🚀</span> Space Adventure<br><small>Rockets, planets, astronauts, and cosmic exploration</small></div>
+                    <div class="theme-option" onclick="selectTheme('animals', this)"><span class="theme-emoji">🦁</span> Animal Kingdom<br><small>Wildlife, pets, jungle animals, and nature</small></div>
+                    <div class="theme-option" onclick="selectTheme('undersea', this)"><span class="theme-emoji">🐋</span> Under the Sea<br><small>Sea creatures, underwater world, and marine life</small></div>
+                    <div class="theme-option" onclick="selectTheme('dinos', this)"><span class="theme-emoji">🦕</span> Dinosaur World<br><small>Prehistoric creatures, fossils, and ancient times</small></div>
+                    <div class="theme-option" onclick="selectTheme('nature', this)"><span class="theme-emoji">🌳</span> Nature Explorer<br><small>Plants, trees, seasons, and outdoor adventures</small></div>
+                    <div class="theme-option" onclick="selectTheme('transport', this)"><span class="theme-emoji">🚗</span> Transportation<br><small>Cars, trains, planes, and vehicles that move</small></div>
                 </div>
                 
                 <label for="difficulty">Difficulty Level <span class="required">*</span></label>
                 <select id="difficulty" onchange="updatePreview()">
-                    <option value="">Choose Level</option>
-                    <option value="easy">Easy 🥳<br><small>Grade-level basics—super approachable!</small></option>
-                    <option value="medium">Medium ⚡<br><small>Slightly advanced—moderate challenges</small></option>
-                    <option value="pro">Pro 🔥<br><small>Above grade—complex & exciting!</small></option>
+                    <option value="">Select Level</option>
+                    <option value="easy">Easy<br><small>Grade-appropriate level with basic concepts</small></option>
+                    <option value="medium">Medium<br><small>Slightly advanced with moderate challenges</small></option>
+                    <option value="pro">Pro<br><small>Above grade level with complex problems</small></option>
                 </select>
             </div>
         </div>
         
         <div id="preview">
-            <h2>Live Preview ✨</h2>
-            <p>Fill in the fields above to see your custom worksheet magic unfold!</p>
+            <h2>Live Preview</h2>
+            <p>Update fields to see your worksheet take shape—instant text magic!</p>
             <div id="preview-content"></div>
         </div>
         
@@ -218,17 +218,17 @@
         </div>
         
         <div class="tips">
-            <h3>Smart Tips for Epic Sheets ✨</h3>
+            <h3>Smart Tips ✨</h3>
             <ul>
-                <li>Coloring sheets shine with simple themes like Nature or Animals!</li>
-                <li>Word searches auto-tune to your grade's reading level—zero frustration.</li>
-                <li>Math problems level up with difficulty—Pro mode for those "aha!" moments.</li>
-                <li>Quizzes blend subjects & themes for stories kids can't put down.</li>
+                <li>Word searches adapt to grade reading level—perfect for animal vocab hunts!</li>
+                <li>Quizzes mix subjects & themes for space science riddles that stick.</li>
+                <li>Math problems scale with difficulty—Pro mode for transport velocity challenges.</li>
+                <li>Preview updates in a flash—tweak & regenerate for endless combos!</li>
             </ul>
         </div>
         
         <div style="text-align: center; color: #ef4444; font-weight: bold;">
-            <p id="requiredMsg">Complete the required fields to unlock the fun! 🎉</p>
+            <p id="requiredMsg">Fill required fields to unlock generation! 🎉</p>
         </div>
     </section>
     
@@ -241,41 +241,41 @@
             <div class="quiz-question">
                 <p>1. When learning new info, does your kid...</p>
                 <div class="quiz-options">
-                    <div class="quiz-option" data-answer="0" onclick="selectOption(this)">Draw pictures or watch videos? (Visual)</div>
-                    <div class="quiz-option" data-answer="1" onclick="selectOption(this)">Talk it out or listen to stories? (Auditory)</div>
-                    <div class="quiz-option" data-answer="2" onclick="selectOption(this)">Build stuff or move around? (Kinesthetic)</div>
+                    <div class="quiz-option" data-answer="0" onclick="selectOption(this)">Draw pictures or watch demos? (Visual)</div>
+                    <div class="quiz-option" data-answer="1" onclick="selectOption(this)">Talk it out or listen to explanations? (Auditory)</div>
+                    <div class="quiz-option" data-answer="2" onclick="selectOption(this)">Build models or act it out? (Kinesthetic)</div>
                 </div>
             </div>
             <div class="quiz-question">
                 <p>2. For remembering facts...</p>
                 <div class="quiz-options">
-                    <div class="quiz-option" data-answer="0" onclick="selectOption(this)">Make mind maps or diagrams? (Visual)</div>
-                    <div class="quiz-option" data-answer="1" onclick="selectOption(this)">Repeat aloud or use rhymes? (Auditory)</div>
-                    <div class="quiz-option" data-answer="2" onclick="selectOption(this)">Walk while reciting or use gestures? (Kinesthetic)</div>
+                    <div class="quiz-option" data-answer="0" onclick="selectOption(this)">Make charts or diagrams? (Visual)</div>
+                    <div class="quiz-option" data-answer="1" onclick="selectOption(this)">Repeat aloud or use songs? (Auditory)</div>
+                    <div class="quiz-option" data-answer="2" onclick="selectOption(this)">Walk while reviewing or use gestures? (Kinesthetic)</div>
                 </div>
             </div>
             <div class="quiz-question">
-                <p>3. In class/group work...</p>
+                <p>3. In group work...</p>
                 <div class="quiz-options">
-                    <div class="quiz-option" data-answer="0" onclick="selectOption(this)">Watch demos or read instructions? (Visual)</div>
-                    <div class="quiz-option" data-answer="1" onclick="selectOption(this)">Discuss ideas out loud? (Auditory)</div>
-                    <div class="quiz-option" data-answer="2" onclick="selectOption(this)">Hands-on experiments or role-play? (Kinesthetic)</div>
+                    <div class="quiz-option" data-answer="0" onclick="selectOption(this)">Watch others or read guides? (Visual)</div>
+                    <div class="quiz-option" data-answer="1" onclick="selectOption(this)">Discuss ideas verbally? (Auditory)</div>
+                    <div class="quiz-option" data-answer="2" onclick="selectOption(this)">Hands-on building or role-play? (Kinesthetic)</div>
                 </div>
             </div>
             <div class="quiz-question">
-                <p>4. Best way to explain something...</p>
+                <p>4. Best way to explain...</p>
                 <div class="quiz-options">
-                    <div class="quiz-option" data-answer="0" onclick="selectOption(this)">Sketch it or show a video? (Visual)</div>
-                    <div class="quiz-option" data-answer="1" onclick="selectOption(this)">Tell a story or describe verbally? (Auditory)</div>
+                    <div class="quiz-option" data-answer="0" onclick="selectOption(this)">Sketch or show examples? (Visual)</div>
+                    <div class="quiz-option" data-answer="1" onclick="selectOption(this)">Describe in words or stories? (Auditory)</div>
                     <div class="quiz-option" data-answer="2" onclick="selectOption(this)">Demonstrate physically? (Kinesthetic)</div>
                 </div>
             </div>
             <div class="quiz-question">
                 <p>5. For fun learning...</p>
                 <div class="quiz-options">
-                    <div class="quiz-option" data-answer="0" onclick="selectOption(this)">Watch educational shows? (Visual)</div>
-                    <div class="quiz-option" data-answer="1" onclick="selectOption(this)">Listen to podcasts or audiobooks? (Auditory)</div>
-                    <div class="quiz-option" data-answer="2" onclick="selectOption(this)">Play active games or build models? (Kinesthetic)</div>
+                    <div class="quiz-option" data-answer="0" onclick="selectOption(this)">Watch videos or read books? (Visual)</div>
+                    <div class="quiz-option" data-answer="1" onclick="selectOption(this)">Listen to podcasts or music? (Auditory)</div>
+                    <div class="quiz-option" data-answer="2" onclick="selectOption(this)">Play games or experiment? (Kinesthetic)</div>
                 </div>
             </div>
             <button type="submit" class="btn">Get Results! 🌟</button>
@@ -283,54 +283,126 @@
         <div id="quizResults" class="hidden" style="margin-top: 2rem; padding: 1.5rem; background: #f0fdf4; border-radius: 12px; border-left: 4px solid var(--success);">
             <h2>Your Learning Style: <span id="style"></span> 🎯</h2>
             <p id="recs"></p>
-            <p>Pro Tip: Use this in the generator for personalized tweaks! E.g., Visual kids love Space themes with diagrams.</p>
+            <p>Pro Tip: Visual? Amp space themes. Kinesthetic? Go for interactive quizzes!</p>
         </div>
     </section>
     
     <!-- Resource Library -->
     <section id="library" class="hidden">
-        <h1>Resource Library: Free Goodies Await! 📚</h1>
-        <p class="subtitle">Curated downloads, guides, & extras to supercharge your teaching. Search, grab, & go!</p>
+        <h1>Resource Library: Fuel Your Quests! 📚</h1>
+        <p class="subtitle">Curated YouTube gems & Khan Academy mastery—dive into themes with pro educators. Search, watch, inspire!</p>
         
-        <input type="text" id="searchRes" placeholder="Search resources (e.g., math guides)..." onkeyup="filterResources()" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 2px solid #e2e8f0; border-radius: 10px;">
+        <input type="text" id="searchRes" placeholder="Search (e.g., space videos)..." onkeyup="filterResources()" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 2px solid #e2e8f0; border-radius: 10px;">
         
         <div class="resource-grid" id="resGrid">
-            <div class="resource-card" data-tags="math">
-                <h4>Math Starter Pack</h4>
-                <p>Basic ops cheat sheet & games for K-3.</p>
-                <a href="#" class="download-link" onclick="downloadRes('math-starter.pdf')">Download PDF 📥</a>
+            <div class="resource-card" data-tags="space">
+                <h4>🚀 Space Adventure Videos</h4>
+                <p>Journey into stars—perfect for cosmic quizzes!</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/8Sl8m5-Tutk" title="Journey Into Space | Nat Geo Kids" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=8Sl8m5-Tutk" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science/middle-school-earth-and-space-science/x87d03b443efbea0a:earth-in-space/x87d03b443efbea0a:earths-place-in-the-universe/v/introduction-to-middle-school-earth-and-space-science" class="khan-link" target="_blank">Khan: Earth in Space Intro</a><grok-card data-id="6381ad" data-type="citation_card"></grok-card>
             </div>
-            <div class="resource-card" data-tags="science">
-                <h4>Science Experiments Kit</h4>
-                <p>10 easy home labs with themes like Under the Sea.</p>
-                <a href="#" class="download-link" onclick="downloadRes('science-kit.pdf')">Download PDF 📥</a>
+            <div class="resource-card" data-tags="space">
+                <h4>Solar System Explorer</h4>
+                <p>Planets & space facts for math tie-ins.</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/iWNuW0_ycxc" title="Solar System for Kids" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=iWNuW0_ycxc" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science/middle-school-earth-and-space-science" class="khan-link" target="_blank">Khan: Middle School Space Science</a><grok-card data-id="b10d02" data-type="citation_card"></grok-card>
             </div>
-            <div class="resource-card" data-tags="reading">
-                <h4>Reading Adventure Guide</h4>
-                <p>Story prompts & vocab builders for any theme.</p>
-                <a href="#" class="download-link" onclick="downloadRes('reading-guide.pdf')">Download PDF 📥</a>
+            <div class="resource-card" data-tags="animals">
+                <h4>🦁 Animal Kingdom Deep Dive</h4>
+                <p>Wildlife wonders—great for reading quests.</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/dXfJbp4_M1Q" title="Animal Kingdom | Science for Kids" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=dXfJbp4_M1Q" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science/ka-science-grade-6/x12c13c153ec99496:diversity-in-the-living-world" class="khan-link" target="_blank">Khan: Diversity in Living World (Animals)</a><grok-card data-id="f72bbf" data-type="citation_card"></grok-card>
             </div>
-            <div class="resource-card" data-tags="quiz">
-                <h4>Quiz Master Templates</h4>
-                <p>Ready-to-edit question banks for all grades.</p>
-                <a href="#" class="download-link" onclick="downloadRes('quiz-templates.pdf')">Download PDF 📥</a>
+            <div class="resource-card" data-tags="animals">
+                <h4>Everything About Animals</h4>
+                <p>Reptiles to mammals—quiz fuel!</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/zzQlMfU0o9E" title="EVERYTHING YOU NEED TO KNOW about THE ANIMAL KINGDOM" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=zzQlMfU0o9E" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science/ka-science-grade-6" class="khan-link" target="_blank">Khan: Grade 6 Science (Animal Units)</a><grok-card data-id="985800" data-type="citation_card"></grok-card>
             </div>
-            <div class="resource-card" data-tags="wordsearch">
-                <h4>Word Search Extras</h4>
-                <p>Bonus grids & answer keys for themes.</p>
-                <a href="#" class="download-link" onclick="downloadRes('wordsearch-extras.pdf')">Download PDF 📥</a>
+            <div class="resource-card" data-tags="undersea">
+                <h4>🐋 Under the Sea Adventures</h4>
+                <p>Ocean life stories—word search inspo.</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/x0zrJWHXFx8" title="Under the Sea | Discover ocean animals" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=x0zrJWHXFx8" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science/ka-science-grade-6/x12c13c153ec99496:diversity-in-the-living-world" class="khan-link" target="_blank">Khan: Aquatic Habitats & Adaptations</a><grok-card data-id="eb2df8" data-type="citation_card"></grok-card>
             </div>
-            <div class="resource-card" data-tags="coloring">
-                <h4>Coloring Pages Pack</h4>
-                <p>Printable line art for 6 themes.</p>
-                <a href="#" class="download-link" onclick="downloadRes('coloring-pack.pdf')">Download PDF 📥</a>
+            <div class="resource-card" data-tags="undersea">
+                <h4>Deep Ocean Zones</h4>
+                <p>From sunlight to abyss—science gold.</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/QNVZL6wf5Hk" title="Under the Ocean. All about the Ocean for Kids" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=QNVZL6wf5Hk" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science/class-6-science" class="khan-link" target="_blank">Khan: Class 6 Ocean Resources</a><grok-card data-id="6ef72d" data-type="citation_card"></grok-card>
+            </div>
+            <div class="resource-card" data-tags="dinos">
+                <h4>🦕 Play & Learn Dinosaurs</h4>
+                <p>90-min dino fun—quiz & math tie-ins.</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/tgnMgRZfGNs" title="[TV for Kids] Play & Learn with Dinosaurs" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=tgnMgRZfGNs" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science/middle-school-earth-and-space-science/x87d03b443efbea0a:earth-in-space/x87d03b443efbea0a:earths-place-in-the-universe/v/introduction-to-middle-school-earth-and-space-science" class="khan-link" target="_blank">Khan: Dinosaurs in Earth's History</a><grok-card data-id="2ac286" data-type="citation_card"></grok-card>
+            </div>
+            <div class="resource-card" data-tags="dinos">
+                <h4>Dinosaur World Songs</h4>
+                <p>Sing-along facts—reading rhythm!</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/ze3L6ymQ0H8" title="Dinosaur World | Kids Songs" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=ze3L6ymQ0H8" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science/6th-grade-science-matatag" class="khan-link" target="_blank">Khan: 6th Grade Earth History (Fossils)</a><grok-card data-id="04ac7d" data-type="citation_card"></grok-card>
+            </div>
+            <div class="resource-card" data-tags="nature">
+                <h4>🌳 Nature for Kids</h4>
+                <p>Forests & rivers vocab—exploration quests.</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/oTjySm7mgZE" title="Nature for Kids - Kindergarten learning video" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=oTjySm7mgZE" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science/ka-science-grade-6" class="khan-link" target="_blank">Khan: Grade 6 Natural Resources (Forests/Oceans)</a><grok-card data-id="d83d8f" data-type="citation_card"></grok-card>
+            </div>
+            <div class="resource-card" data-tags="nature">
+                <h4>Nature's Explorers Playlist</h4>
+                <p>Backyard to forests—hands-on inspo.</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/videoseries?list=PLi7Jwi_ktEQOYOwbgemeNpnUR3kG_qPVS" title="Nature's Explorers - Videos for Kids!" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/playlist?list=PLi7Jwi_ktEQOYOwbgemeNpnUR3kG_qPVS" class="download-link" target="_blank">Watch Playlist</a>
+                <a href="https://www.khanacademy.org/science/class-6-science" class="khan-link" target="_blank">Khan: Class 6 Nature Treasures</a><grok-card data-id="7b2695" data-type="citation_card"></grok-card>
+            </div>
+            <div class="resource-card" data-tags="transport">
+                <h4>🚗 Means of Transport</h4>
+                <p>Land/water/air—vehicle vocab blast.</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/biX7NNxw_w8" title="Means Of Transport For Children" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=biX7NNxw_w8" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science" class="khan-link" target="_blank">Khan: Physics of Motion (Vehicles)</a><grok-card data-id="a85751" data-type="citation_card"></grok-card>
+            </div>
+            <div class="resource-card" data-tags="transport">
+                <h4>Transportation Vocabulary</h4>
+                <p>Trucks to planes—math speed ties.</p>
+                <iframe class="resource-video" src="https://www.youtube.com/embed/lcdWNmvvyew" title="Transportation - Kids vocabulary" frameborder="0" allowfullscreen></iframe>
+                <a href="https://www.youtube.com/watch?v=lcdWNmvvyew" class="download-link" target="_blank">Watch Full</a>
+                <a href="https://www.khanacademy.org/science/6th-grade-science-matatag" class="khan-link" target="_blank">Khan: 6th Grade Energy & Transport</a><grok-card data-id="905908" data-type="citation_card"></grok-card>
+            </div>
+            <div class="resource-card" data-tags="math science">
+                <h4>📐 Khan Academy Math Mastery</h4>
+                <p>K-6 core math—operations, geometry for all themes.</p>
+                <a href="https://www.khanacademy.org/math" class="khan-link" target="_blank">Explore K-6 Math</a><grok-card data-id="dcb8c2" data-type="citation_card"></grok-card>
+                <p>Pro Tip: Pair with space math for rocket equations!</p>
+            </div>
+            <div class="resource-card" data-tags="science reading">
+                <h4>🔬 Khan Science & Reading</h4>
+                <p>Grade 6 science units—animals, nature, discovery.</p>
+                <a href="https://www.khanacademy.org/science/ka-science-grade-6" class="khan-link" target="_blank">Grade 6 Science Hub</a><grok-card data-id="950fce" data-type="citation_card"></grok-card>
+                <p>Bonus: Reading comp in science stories!</p>
+            </div>
+            <div class="resource-card" data-tags="undersea dinos">
+                <h4>🌊 Khan Earth History</h4>
+                <p>Dinos & oceans in Earth's timeline.</p>
+                <a href="https://www.khanacademy.org/science/middle-school-earth-and-space-science" class="khan-link" target="_blank">Earth & Space Science</a><grok-card data-id="a8b69a" data-type="citation_card"></grok-card>
+                <p>Link quizzes to fossil facts!</p>
             </div>
         </div>
     </section>
 
     <script>
         let selectedTheme = '';
-        let quizAnswers = new Array(5).fill(-1); // One per question
+        let quizAnswers = new Array(5).fill(-1);
         
         document.querySelectorAll('.nav-tab').forEach(tab => {
             tab.addEventListener('click', (e) => {
@@ -350,7 +422,7 @@
         
         function selectTheme(theme, el) {
             selectedTheme = theme;
-            document.querySelectorAll('#themes .theme-option').forEach(t => t.classList.remove('selected'));
+            document.querySelectorAll('.theme-option').forEach(t => t.classList.remove('selected'));
             el.classList.add('selected');
             updatePreview();
         }
@@ -360,30 +432,44 @@
             const subject = document.getElementById('subject');
             const type = document.getElementById('type');
             const difficulty = document.getElementById('difficulty').value;
-            const preview = document.getElementById('preview-content');
+            const preview = document.getElementById('preview');
             const genBtn = document.getElementById('genBtn');
             const requiredMsg = document.getElementById('requiredMsg');
             const actionBtns = document.getElementById('actionBtns');
+            const previewContent = document.getElementById('preview-content');
             
-            // Update descs
-            document.getElementById('subject-desc').textContent = subject.options[subject.selectedIndex]?.dataset.desc || '';
-            document.getElementById('type-desc').textContent = type.options[type.selectedIndex]?.dataset.desc || '';
+            // Update descs instantly
+            const subDesc = subject.selectedOptions[0]?.dataset.desc || '';
+            const typeDesc = type.selectedOptions[0]?.dataset.desc || '';
+            document.getElementById('subject-desc').textContent = subDesc;
+            document.getElementById('type-desc').textContent = typeDesc;
             
             if (grade && subject.value && type.value && selectedTheme && difficulty) {
                 genBtn.disabled = false;
                 requiredMsg.style.display = 'none';
                 actionBtns.classList.add('hidden');
-                preview.innerHTML = `
-                    <h3>Preview: ${type.options[type.selectedIndex].text} on ${selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)} (${difficulty})</h3>
-                    <p>Grade ${grade.replace('grade', '')} ${subject.options[subject.selectedIndex].text} vibes incoming! E.g., for Math Pro Space: "Calculate rocket fuel: 5 + 7 = ? 🚀"</p>
-                    <div style="font-size: 2rem; margin-top: 1rem;">✨ Coming to life...</div>
-                `;
+                
+                // Quick live preview gen
+                let liveContent = `<h3>Quick Peek: ${type.options[type.selectedIndex].text} - ${selectedTheme.toUpperCase()} Theme (${difficulty})</h3>`;
+                const themeEmoji = { space: '🚀', animals: '🦁', undersea: '🐋', dinos: '🦕', nature: '🌳', transport: '🚗' }[selectedTheme] || '📝';
+                
+                if (type.value === 'math') {
+                    const a = Math.floor(Math.random() * 10) + 1;
+                    const b = Math.floor(Math.random() * 10) + 1;
+                    liveContent += `<p>${themeEmoji} Sample: ${a} + ${b} = ? (E.g., Rocket fuel calc!)</p><div class="problem">${a} + ${b} = _____</div>`;
+                } else if (type.value === 'wordsearch') {
+                    liveContent += `<p>${themeEmoji} Hunt these: ROCKET, PLANET (Grid preview below)</p><div class="wordsearch-grid">R O C K E T<br>P L A N E T<br>S T A R ...</div>`;
+                } else if (type.value === 'quiz') {
+                    liveContent += `<div class="quiz-options-preview"><p>Sample Q: What's a ${selectedTheme} fact? A) Cool B) Epic</p><div class="quiz-option-preview">A) Cool</div><div class="quiz-option-preview">B) Epic</div></div>`;
+                }
+                
+                preview.innerHTML = `<h2>Live Preview</h2><p>Real-time magic—tweaks update instantly!</p>${liveContent}`;
                 preview.classList.add('show');
             } else {
                 genBtn.disabled = true;
                 requiredMsg.style.display = 'block';
                 actionBtns.classList.add('hidden');
-                preview.innerHTML = '<p>Fill the stars to unlock preview magic! 🌟</p>';
+                preview.innerHTML = '<h2>Live Preview</h2><p>Update fields to see your worksheet take shape—instant text magic!</p><div id="preview-content"></div>';
                 preview.classList.remove('show');
             }
         }
@@ -396,139 +482,19 @@
             const type = document.getElementById('type').value;
             const theme = selectedTheme;
             const difficulty = document.getElementById('difficulty').value;
-            const themeEmojis = { space: '🚀', animals: '🦁', sea: '🐟', dinos: '🦕', nature: '🌳', transport: '🚗' };
-            const emoji = themeEmojis[theme] || '📝';
+            const themeEmoji = { space: '🚀', animals: '🦁', undersea: '🐋', dinos: '🦕', nature: '🌳', transport: '🚗' }[theme] || '📝';
+            const num = difficulty === 'easy' ? 5 : difficulty === 'medium' ? 8 : 10;
             
-            let content = `<h1>${theme.toUpperCase()} ${type.toUpperCase()} Worksheet ${emoji}</h1><p>Grade: ${grade} | Subject: ${subject} | Level: ${difficulty}</p>`;
+            let content = `<h1>${theme.toUpperCase()} ${type.toUpperCase()} Worksheet ${themeEmoji}</h1><p>Grade: ${grade} | Subject: ${subject} | Level: ${difficulty}</p>`;
             
             if (type === 'math' || subject === 'math') {
                 const maxNum = difficulty === 'easy' ? 10 : difficulty === 'medium' ? 20 : 50;
                 const ops = difficulty === 'easy' ? ['+'] : difficulty === 'medium' ? ['+', '-'] : ['+', '-', '*', '/'];
-                const problems = [];
-                for (let i = 0; i < (difficulty === 'pro' ? 8 : 5); i++) {
+                let problems = [];
+                for (let i = 0; i < num; i++) {
                     const a = Math.floor(Math.random() * maxNum) + 1;
                     const b = Math.floor(Math.random() * maxNum) + 1;
                     const op = ops[Math.floor(Math.random() * ops.length)];
-                    let expr = `${a} ${op} ${b} = _____`;
-                    if (theme === 'space') expr = `Rocket ${expr} 🚀`;
-                    else if (theme === 'animals') expr = `Animal count: ${expr} 🦁`;
-                    // Add more theme ties...
-                    problems.push(`<div class="problem">${i+1}. ${expr}</div>`);
-                }
-                content += `<ol>${problems.join('')}</ol><div class="answers" style="margin-top: 2rem; background: #f0f8ff; padding: 1rem; border-radius: 8px;"><h4>Answer Key (Parents Only) 🔑</h4><ol>${problems.map((p, i) => `<li>${eval(p.match(/\d+ \+ \d+| \d+ - \d+| \d+ \* \d+| \d+ \/ \d+/)[0].replace(/ /g, ''))}</li>`).join('')}</ol></div>`; // Simple eval for answers (secure since controlled)
-            } else if (type === 'wordsearch') {
-                // Generate simple 5x5 grid with words
-                const words = ['ROCKET', 'PLANET', 'STAR']; // Theme-based
-                const grid = Array(5).fill().map(() => Array(5).fill(' '));
-                // Place words horizontally (simple)
-                words.forEach((word, idx) => {
-                    const row = idx;
-                    for (let j = 0; j < word.length && j < 5; j++) {
-                        grid[row][j] = word[j];
-                    }
-                });
-                // Fill rest randomly
-                for (let i = 0; i < 5; i++) for (let j = 0; j < 5; j++) if (grid[i][j] === ' ') grid[i][j] = String.fromCharCode(65 + Math.random() * 26);
-                content += `<p>Find: ${words.join(', ')} ${emoji}</p><div class="wordsearch-grid">${grid.map(row => row.join(' ')).join('\n')}</div>`;
-            } else if (type === 'quiz') {
-                const questions = [
-                    `1. What's the capital of ${theme}? (Hint: Fun fact!)`,
-                    `2. Name 3 things in a ${theme}.`,
-                    `3. True/False: ${theme} is awesome!`
-                ];
-                content += `<ol>${questions.map(q => `<li>${q}</li>`).join('')}</ol><p>Answers: (Parent guide—1. Imagination City, 2. Varies, 3. True! 😄)</p>`;
-            } else if (type === 'coloring') {
-                content += `<p>Color the ${theme} scene! 🎨</p><div class="coloring-placeholder">🚀 [Space Rocket Line Art - Draw & Color Here!] 🪐</div><p>Tip: Use crayons for galaxy vibes!</p>`;
-            }
-            
-            document.getElementById('preview-content').innerHTML = content;
-            document.getElementById('actionBtns').classList.remove('hidden');
-        }
-        
-        function downloadPDF() {
-            const element = document.getElementById('preview');
-            html2pdf().set({ margin: 1, filename: 'epic-worksheet.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } }).from(element).save();
-            confetti({ particleCount: 50, spread: 60 });
-        }
-        
-        function saveTemplate() {
-            const formData = {
-                grade: document.getElementById('grade').value,
-                subject: document.getElementById('subject').value,
-                type: document.getElementById('type').value,
-                theme: selectedTheme,
-                difficulty: document.getElementById('difficulty').value
-            };
-            localStorage.setItem('worksheetTemplate', JSON.stringify(formData));
-            alert('Template saved! Reload to auto-fill next time. 📁');
-        }
-        
-        // Load saved template on init
-        window.addEventListener('load', () => {
-            const saved = localStorage.getItem('worksheetTemplate');
-            if (saved) {
-                const data = JSON.parse(saved);
-                document.getElementById('grade').value = data.grade;
-                document.getElementById('subject').value = data.subject;
-                document.getElementById('type').value = data.type;
-                document.getElementById('difficulty').value = data.difficulty;
-                selectedTheme = data.theme;
-                if (selectedTheme) document.querySelector(`[onclick="selectTheme('${selectedTheme}', this)"]`).click();
-                updatePreview();
-            }
-        });
-        
-        // Quiz Functions
-        function selectOption(el) {
-            const qIndex = Array.from(el.parentNode.parentNode.parentNode.children).indexOf(el.parentNode.parentNode);
-            const answer = parseInt(el.dataset.answer);
-            quizAnswers[qIndex] = answer;
-            el.parentNode.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
-            el.classList.add('selected');
-        }
-        
-        function resetQuiz() {
-            quizAnswers = new Array(5).fill(-1);
-            document.querySelectorAll('.quiz-option').forEach(o => {
-                o.classList.remove('selected');
-            });
-            document.getElementById('quizResults').classList.add('hidden');
-        }
-        
-        document.getElementById('quizForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const visual = quizAnswers.filter(a => a === 0).length;
-            const auditory = quizAnswers.filter(a => a === 1).length;
-            const kinesthetic = quizAnswers.filter(a => a === 2).length;
-            let style = 'Visual';
-            let recs = 'Loves images & colors!';
-            if (auditory > visual && auditory > kinesthetic) { style = 'Auditory'; recs = 'Thrives on stories & discussions!'; }
-            else if (kinesthetic > visual && kinesthetic > auditory) { style = 'Kinesthetic'; recs = 'Energized by hands-on action!'; }
-            document.getElementById('style').textContent = style;
-            document.getElementById('recs').textContent = recs;
-            document.getElementById('quizResults').classList.remove('hidden');
-        });
-        
-        // Resource Functions
-        function filterResources() {
-            const query = document.getElementById('searchRes').value.toLowerCase();
-            document.querySelectorAll('#resGrid .resource-card').forEach(card => {
-                const tags = card.dataset.tags.toLowerCase();
-                card.style.display = tags.includes(query) || card.textContent.toLowerCase().includes(query) ? 'block' : 'none';
-            });
-        }
-        
-        function downloadRes(file) {
-            // In real: Create blob or link to PDF; for now, mock
-            const link = document.createElement('a');
-            link.href = `data:text/plain;charset=utf-8,Downloaded: ${file}`;
-            link.download = file;
-            link.click();
-            alert(`Grabbed ${file}! (Full PDFs coming soon—stay tuned!)`);
-        }
-        
-        // Init
-        updatePreview();
-    </script>
-</body>
-</html>
+                    const result = op === '+' ? a + b : op === '-' ? a - b : op === '*' ? a * b : Math.floor(a / b);
+                    const themeTie = theme === 'space' ? ' (Rocket fuel! 🚀)' : theme === 'animals' ? ' (Pack hunt! 🦁)' : theme === 'undersea' ? ' (Deep dive! 🐋)' : theme === 'dinos' ? ' (Fossil dig! 🦕)' : theme === 'nature' ? ' (Trail count! 🌳)' : ' (Road race! 🚗)';
+                    problems.push(`${i+1}. ${a} ${op} ${b}
