@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSheet Generator | Mama Said This</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root { --primary: #e85d75; --light: #f8fafc; --dark: #1e293b; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; color: var(--dark); background: var(--light); padding: 1rem; max-width: 800px; margin: 0 auto; }
+        @media (max-width: 768px) { body { padding: 0.5rem; } }
+        .back-btn { display: inline-block; margin-bottom: 1rem; padding: 0.5rem 1rem; background: #6366f1; color: white; text-decoration: none; border-radius: 20px; font-size: 0.9rem; }
+        h1 { color: var(--primary); text-align: center; margin-bottom: 1rem; }
+        form { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        input, textarea { width: 100%; padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 1rem; }
+        button { width: 100%; padding: 0.8rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        button:hover { background: #d14361; }
+        #output { display: none; background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-top: 1rem; }
+        #output h2 { text-align: center; color: var(--primary); margin-bottom: 1rem; }
+        .section { margin-bottom: 1.5rem; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 6px; }
+        .pdf-btn { background: #10b981; margin-top: 1rem; width: auto; padding: 0.5rem 1rem; display: inline-block; }
+        .pdf-btn:hover { background: #059669; }
+    </style>
+</head>
+<body>
+    <a href="https://edusheet-chooser.pages.dev/" class="back-btn">← Back to Chooser</a>
+    <a href="https://mamasaid-this.pages.dev/" class="back-btn" style="background: #6366f1; margin-left: 1rem;">🏠 Home</a>
+    
+    <h1>EduSheet Builder</h1>
+    <p style="text-align: center; color: #64748b; margin-bottom: 1rem;">Craft lesson templates. Add your topic, pick sections—boom, ready-to-print sheet.</p>
+    
+    <form id="genForm">
+        <label>Topic/Lesson Title:</label>
+        <input type="text" id="title" placeholder="E.g., 'Animal Habitats'" required>
+        
+        <label>Grade Level:</label>
+        <select id="grade">
+            <option value="k2">K-2</option>
+            <option value="35">3-5</option>
+            <option value="68">6-8</option>
+        </select>
+        
+        <label>Sections to Include (check what you want):</label>
+        <label><input type="checkbox" value="vocab" checked> Vocabulary (5 words)</label>
+        <label><input type="checkbox" value="notes"> Key Notes</label>
+        <label><input type="checkbox" value="questions"> Questions (5)</label>
+        <label><input type="checkbox" value="activity"> Quick Activity</label>
+        
+        <label>Extra Instructions:</label>
+        <textarea id="extra" placeholder="E.g., 'Focus on oceans'" rows="2"></textarea>
+        
+        <button type="submit">Build My Sheet!</button>
+    </form>
+    
+    <div id="output">
+        <div id="sheet"></div>
+        <button id="download" class="pdf-btn">Download PDF</button>
+    </div>
+
+    <script>
+        document.getElementById('genForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const grade = document.getElementById('grade').value;
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const sections = Array.from(checkboxes).map(cb => cb.value);
+            const extra = document.getElementById('extra').value;
+            
+            let sheetContent = `<h2>${title} - Grade ${grade.replace(/(\d)(\d)/, '$1-$2')}</h2>`;
+            if (sections.includes('vocab')) {
+                const words = ['habitat', 'ecosystem', 'adapt', 'predator', 'prey']; // Demo; randomize based on topic
+                sheetContent += `<div class="section"><h3>Vocabulary</h3><ul>${words.map(w => `<li>${w}: _____</li>`).join('')}</ul></div>`;
+            }
+            if (sections.includes('notes')) {
+                sheetContent += `<div class="section"><h3>Key Notes</h3><p>${extra || 'Jot main ideas here.'}</p></div>`;
+            }
+            if (sections.includes('questions')) {
+                sheetContent += `<div class="section"><h3>Questions</h3><ol><li>What is a habitat?</li><li>_____ eats _____.</li><li>Draw an ecosystem.</li><li>...</ol></div>`; // Expand with topic
+            }
+            if (sections.includes('activity')) {
+                sheetContent += `<div class="section"><h3>Activity</h3><p>Draw your favorite animal's home. Label 3 parts.</p></div>`;
+            }
+            
+            document.getElementById('sheet').innerHTML = sheetContent;
+            document.getElementById('output').style.display = 'block';
+        });
+        
+        document.getElementById('download').addEventListener('click', () => {
+            const element = document.getElementById('output');
+            html2pdf().set({ margin: 1, filename: 'edusheet.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 } }).from(element).save();
+        });
+    </script>
+</body>
+</html>
